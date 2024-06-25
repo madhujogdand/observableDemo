@@ -1,0 +1,80 @@
+<div class="container">
+    <h3>Employee List</h3>
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Salary</th>
+                        <th>Dep Id</th>
+                        <th>Dep Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(e of employeeList;track e.id){
+                        <tr>
+                            <td>{{e.id}}</td>
+                            <td>{{e.name}}</td>
+                            <td>{{e.salary}}</td>
+                            <td>{{e.deptid}}</td>
+                            @for(d of departmentList;track d.deptid){
+                              <div *ngIf="d.deptid==e.deptid">
+                                <td>{{d.deptname}}</td>
+                              </div>
+                            }
+                            <td>
+                                <button type="button" class="btn btn-info" (click)="editEmployees(e)">Edit</button>&nbsp;
+                                <button type="button" class="btn btn-danger" (click)="deleteEmployees(e.id)">Delete</button>&nbsp;
+                                <button type="button" class="btn btn-info" (click)="infoEmployees(e.id)">Info</button>
+                              </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h3>Employee</h3>
+            <form [formGroup]="empForms" (ngSubmit)="saveEmployee()">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="id"  name="id" id="id" placeholder="Employee Id">
+                    <label for="id">Employee Id</label>
+                    <!-- <div *ngIf="id?.invalid && id?.touched">
+                      <small class="text-danger" *ngIf="id?.errors?.['required']">Id is required</small>
+                    </div> -->
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="name" required [class.is-invlaid]="name?.invalid && name?.touched" name="name" id="name" placeholder="Employee Name">
+                    <label for="name">Employee Name</label>
+                    <div *ngIf="name?.invalid && name?.touched">
+                      <small class="text-danger" *ngIf="name?.errors?.['required']">Name is required</small>
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" formControlName="salary" required [class.is-invlaid]="salary?.invalid && salary?.touched" name="salary" id="salary" placeholder="Salary Price">
+                    <label for="salary">Salary </label>
+                    <div *ngIf="salary?.invalid && salary?.touched">
+                      <small class="text-danger" *ngIf="salary?.errors?.['required']">Salary is required</small>
+                    </div>
+                  </div>
+                  <div class="form-floating">
+                    <select class="form-select" formControlName="deptid"  id="deptid" name="deptid"
+                      aria-label="Floating label disabled select example">
+                      <option *ngFor="let d of departmentList" [value]="d.deptid">{{d.deptname}}</option>
+                    </select>
+                    <label for="department">Department</label>
+                  </div>&nbsp;
+                  <div class="form-floating mb-3">
+                    <button type="submit" *ngIf="!isUpdatebtn" [disabled]="empForms.invalid" class="btn btn-outline-primary">Add</button> &nbsp;
+                    <button type="submit" *ngIf="isUpdatebtn" class="btn btn-outline-primary">Update</button> &nbsp;
+                    <button type="button" class="btn btn-outline-primary" (ngSubmit)=" clearForm()">Cancel</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- [(ngModel)]="employee.department" -->

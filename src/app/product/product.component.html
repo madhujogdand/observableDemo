@@ -1,0 +1,63 @@
+<div class="container">
+    <h3>Product List</h3>
+    <div class="row">
+        <div class="col-6">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for(p of productList;track p.id){
+                        <tr>
+                            <td>{{p.id}}</td>
+                            <td>{{p.name}}</td>
+                            <td>{{p.price}}</td>
+                            <td>
+                                <button type="button" class="btn btn-info" (click)="editProducts(p)">Edit</button>&nbsp;
+                                <button type="button" class="btn btn-danger" (click)="deleteProducts(p.id)">Delete</button>&nbsp;
+                                <button type="button" class="btn btn-info" (click)="infoProducts(p.id)">Info</button>
+                              </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col-6">
+            <h3>Product</h3>
+            <form [formGroup]="productForms" (ngSubmit)="saveProduct()">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="id"  name="id" id="id" placeholder="Product Id">
+                    <label for="id">Product Id</label>
+                    <!-- <div *ngIf="id?.invalid && id?.touched">
+                      <small class="text-danger" *ngIf="id?.errors?.['required']">Id is required</small>
+                    </div> -->
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" formControlName="name" required [class.is-invlaid]="name?.invalid && name?.touched" name="name" id="name" placeholder="Product Name">
+                    <label for="name">Product Name</label>
+                    <div *ngIf="name?.invalid && name?.touched">
+                      <small class="text-danger" *ngIf="name?.errors?.['required']">Name is required</small>
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control" formControlName="price" required [class.is-invlaid]="price?.invalid && price?.touched" name="price" id="price" placeholder="Product Price">
+                    <label for="price">Product Price</label>
+                    <div *ngIf="price?.invalid && price?.touched">
+                      <small class="text-danger" *ngIf="price?.errors?.['required']">Price is required</small>
+                    </div>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <button type="submit" *ngIf="!isUpdatebtn" [disabled]="productForms.invalid" class="btn btn-outline-primary">Add</button> &nbsp;
+                    <button type="submit" *ngIf="isUpdatebtn" class="btn btn-outline-primary">Update</button> &nbsp;
+                    <button type="button" class="btn btn-outline-primary">Cancel</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</div>
+
